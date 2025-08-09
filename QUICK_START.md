@@ -5,7 +5,7 @@
 Install VPN Manager on your Ubuntu server with a single command:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/mkkelati/vpn5/main/install.sh | sudo bash
+curl -sSL https://raw.githubusercontent.com/mkkelati/vpn66/main/install.sh | sudo bash
 ```
 
 ## 📋 Prerequisites
@@ -20,7 +20,7 @@ Before installation, ensure you have:
 
 ### 1. Install VPN Manager
 ```bash
-curl -sSL https://raw.githubusercontent.com/mkkelati/vpn5/main/install.sh | sudo bash
+curl -sSL https://raw.githubusercontent.com/mkkelati/vpn66/main/install.sh | sudo bash
 ```
 
 ### 2. Run the VPN Manager

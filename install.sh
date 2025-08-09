@@ -12,7 +12,7 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # GitHub repository
-GITHUB_REPO="https://github.com/mkkelati/vpn5.git"
+GITHUB_REPO="https://github.com/mkkelati/vpn66.git"
 INSTALL_DIR="/opt/vpn_manager"
 
 # Function to print colored output

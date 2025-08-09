@@ -38,8 +38,8 @@ A comprehensive SSH script manager for creating and managing VLESS VPN servers w
 
 1. **Clone the repository**:
 ```bash
-git clone https://github.com/mkkelati/vpn5.git
-cd vpn5
+git clone https://github.com/mkkelati/vpn66.git
+cd vpn66
 ```
 
 2. **Make the script executable**:
@@ -58,7 +58,7 @@ If you prefer to install directly from GitHub:
 
 ```bash
 # Download the script
-wget https://raw.githubusercontent.com/mkkelati/vpn5/main/vpn_manager_enhanced.sh
+wget https://raw.githubusercontent.com/mkkelati/vpn66/main/vpn_manager_enhanced.sh
 
 # Make executable
 chmod +x vpn_manager_enhanced.sh
