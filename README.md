@@ -117,12 +117,213 @@ menu install   # Show installation instructions
 menu help      # Show help message
 ```
 
+### How to Use VPN Manager
+
+#### **Step 1: Installation**
+```bash
+# One-command installation
+curl -sSL https://raw.githubusercontent.com/mkkelati/vpn66/main/install.sh | sudo bash
+```
+
+#### **Step 2: Access VPN Manager**
+```bash
+# Simple way to access
+menu
+
+# Alternative ways
+sudo vpn-manager
+sudo /opt/vpn_manager/vpn_manager_enhanced.sh
+```
+
+#### **Step 3: Initial Setup (First Time)**
+When you run `menu` for the first time, follow these steps:
+
+1. **Install VPN Server** (Option 1)
+   - This installs Xray, dependencies, and configures firewall
+   - Only needed once during initial setup
+
+2. **Configure Domain** (Option 2)
+   - Enter your domain name (e.g., `example.com`)
+   - Script validates domain resolution
+   - Ensures domain points to your server IP
+
+3. **Configure Port** (Option 3)
+   - Set custom port (default: 443)
+   - Port validation and availability check
+   - Firewall rule updates
+
+4. **Install SSL Certificate** (Option 4)
+   - Automatic Let's Encrypt certificate installation
+   - Creates VLESS configuration
+   - Restarts Xray service
+
+5. **Create Client** (Option 5)
+   - Generate unique client configurations
+   - Create HTTP Injector compatible links
+   - Save links to files for easy access
+
+6. **Start Web Monitor** (Option 10)
+   - Access beautiful web dashboard
+   - Real-time monitoring interface
+
+#### **Step 4: Daily Usage**
+After initial setup, you can:
+
+**Access VPN Manager anytime:**
+```bash
+menu
+```
+
+**Check system status:**
+```bash
+menu status
+```
+
+**View web dashboard:**
+- Open browser and go to: `http://YOUR_SERVER_IP:8080`
+
+**Manage clients:**
+- Use menu options 5-7 for client management
+- Generate new HTTP Injector links
+- Monitor client connections
+
+#### **Step 5: HTTP Injector Setup**
+1. Copy the VLESS link from VPN Manager
+2. Open HTTP Injector app
+3. Tap the "+" button
+4. Select "Import from clipboard"
+5. Start connection
+
+**Link Format:**
+```
+vless://[UUID]@[DOMAIN]:[PORT]?type=ws&security=tls&path=%2Fvless&host=[DOMAIN]#[CLIENT_NAME]
+```
+
+### Quick Reference
+
+#### **Essential Commands**
+```bash
+menu                    # Access VPN Manager
+menu status            # Check system status
+menu install           # Show installation instructions
+menu help              # Show help
+```
+
+#### **Key Menu Options**
+- **1**: Install VPN Server (first time only)
+- **2**: Configure Domain
+- **3**: Configure Port
+- **4**: Install SSL Certificate
+- **5**: Create Client
+- **6**: List Clients
+- **7**: Delete Client
+- **8**: Show Live Connections
+- **9**: Show Statistics
+- **10**: Start Web Monitor
+- **11**: Backup Configuration
+- **12**: Restore Configuration
+- **13**: Exit
+
+#### **Important URLs**
+- Web Dashboard: `http://YOUR_SERVER_IP:8080`
+- GitHub Repository: https://github.com/mkkelati/vpn66
+
+#### **File Locations**
+- VPN Manager: `/opt/vpn_manager/`
+- Configuration: `/etc/vpn_manager/`
+- Logs: `/var/log/vpn_manager.log`
+- Xray Logs: `/var/log/xray/`
+
+### VPN Manager Menu Options
+
+When you run `menu`, you'll see the following options:
+
+#### **1. Install/Setup VPN Server**
+- Installs Xray proxy server
+- Configures system dependencies
+- Sets up firewall rules
+- Creates systemd services
+- **Use this option first time only**
+
+#### **2. Configure Domain**
+- Enter your domain name
+- Validates domain resolution
+- Ensures domain points to server IP
+- **Required for SSL certificates**
+
+#### **3. Configure Port**
+- Set custom port (default: 443)
+- Port validation and availability check
+- Updates firewall rules
+- **Customize if needed**
+
+#### **4. Install SSL Certificate**
+- Automatic Let's Encrypt certificate installation
+- Creates VLESS configuration
+- Restarts Xray service
+- **Required for TLS security**
+
+#### **5. Create Client**
+- Generate unique client configurations
+- Create HTTP Injector compatible links
+- Save links to files for easy access
+- **Use this to add new users**
+
+#### **6. List Clients**
+- Shows all created clients
+- Displays client information
+- Shows connection statistics
+- **Monitor your clients**
+
+#### **7. Delete Client**
+- Remove client configurations
+- Clean up unused clients
+- Update Xray configuration
+- **Manage client access**
+
+#### **8. Show Live Connections**
+- Real-time connection monitoring
+- Shows active connections
+- Displays recent log entries
+- **Monitor usage**
+
+#### **9. Show Statistics**
+- System information
+- Service status
+- Client statistics
+- Network information
+- **System overview**
+
+#### **10. Start Web Monitor**
+- Launches web dashboard
+- Access at `http://YOUR_SERVER_IP:8080`
+- Real-time monitoring interface
+- **Beautiful web UI**
+
+#### **11. Backup Configuration**
+- Creates backup of all settings
+- Includes client database
+- Saves Xray configuration
+- **Data protection**
+
+#### **12. Restore Configuration**
+- Restores from backup
+- Recovers all settings
+- Restarts services
+- **Data recovery**
+
+#### **13. Exit**
+- Safely exit VPN Manager
+- Returns to command prompt
+- **Clean exit**
+
 ### Client Management
 
 #### Creating a Client
 ```bash
 # Run the script and select option 5
-sudo ./vpn_manager_enhanced.sh
+menu
+# Select option 5: Create Client
 # Enter client name when prompted
 ```
 
@@ -150,6 +351,63 @@ http://YOUR_SERVER_IP:8080
 - Client status overview
 - Recent connection logs
 - Xray service status
+
+### Common Usage Scenarios
+
+#### **First Time Setup**
+```bash
+# 1. Install VPN Manager
+curl -sSL https://raw.githubusercontent.com/mkkelati/vpn66/main/install.sh | sudo bash
+
+# 2. Access menu
+menu
+
+# 3. Follow setup wizard (options 1-4, then 5, then 10)
+```
+
+#### **Adding New Clients**
+```bash
+# 1. Access VPN Manager
+menu
+
+# 2. Select option 5: Create Client
+# 3. Enter client name
+# 4. Copy the generated link
+# 5. Share with user for HTTP Injector
+```
+
+#### **Checking System Status**
+```bash
+# Quick status check
+menu status
+
+# Detailed monitoring
+menu
+# Select option 9: Show Statistics
+```
+
+#### **Monitoring Connections**
+```bash
+# Command line monitoring
+menu
+# Select option 8: Show Live Connections
+
+# Web dashboard monitoring
+menu
+# Select option 10: Start Web Monitor
+# Then open browser to http://YOUR_SERVER_IP:8080
+```
+
+#### **Backup and Restore**
+```bash
+# Create backup
+menu
+# Select option 11: Backup Configuration
+
+# Restore backup
+menu
+# Select option 12: Restore Configuration
+```
 
 ### Monitoring Features
 
