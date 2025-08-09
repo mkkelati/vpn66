@@ -102,6 +102,10 @@ setup_vpn_manager() {
     # Create symlink for easy access
     ln -sf "$INSTALL_DIR/vpn_manager_enhanced.sh" /usr/local/bin/vpn-manager
     
+    # Copy menu script and create menu command
+    cp menu.sh /usr/local/bin/menu
+    chmod +x /usr/local/bin/menu
+    
     print_success "VPN Manager setup completed"
 }
 
@@ -116,6 +120,8 @@ show_summary() {
     echo
     echo "Next steps:"
     echo "1. Run the VPN Manager:"
+    echo "   menu"
+    echo "   or"
     echo "   sudo vpn-manager"
     echo "   or"
     echo "   sudo $INSTALL_DIR/vpn_manager_enhanced.sh"

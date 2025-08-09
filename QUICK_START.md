@@ -25,6 +25,10 @@ curl -sSL https://raw.githubusercontent.com/mkkelati/vpn66/main/install.sh | sud
 
 ### 2. Run the VPN Manager
 ```bash
+menu
+```
+Or alternatively:
+```bash
 sudo vpn-manager
 ```
 

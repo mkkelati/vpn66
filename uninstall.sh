@@ -90,6 +90,9 @@ remove_files() {
     # Remove symlink
     rm -f /usr/local/bin/vpn-manager
     
+    # Remove menu command
+    rm -f /usr/local/bin/menu
+    
     # Remove web monitor files
     rm -rf /usr/local/bin/vpn_manager
     

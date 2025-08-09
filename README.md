@@ -97,6 +97,26 @@ sudo ./vpn_manager_enhanced.sh
    - Create HTTP Injector compatible links
    - Save links to files for easy access
 
+### Quick Access with Menu Command
+
+After installation, you can easily access the VPN Manager using the `menu` command:
+
+```bash
+menu
+```
+
+This command will:
+- Check if VPN Manager is installed
+- Start the VPN Manager if installed
+- Show installation instructions if not installed
+
+Additional menu options:
+```bash
+menu status    # Check VPN Manager status
+menu install   # Show installation instructions
+menu help      # Show help message
+```
+
 ### Client Management
 
 #### Creating a Client
