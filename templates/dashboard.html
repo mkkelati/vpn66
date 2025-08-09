@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Manager Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .status-active { color: #28a745; }
+        .status-inactive { color: #dc3545; }
+        .card-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .connection-item { border-left: 4px solid #28a745; padding-left: 10px; margin: 5px 0; }
+        .stats-card { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .system-card { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .network-card { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; }
+        .refresh-btn { position: fixed; bottom: 20px; right: 20px; z-index: 1000; }
+    </style>
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shield-alt"></i> VPN Manager Dashboard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text" id="last-update">
+                    Last Update: <span id="update-time">Never</span>
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- System Status -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-microchip fa-2x mb-2"></i>
+                        <h5>CPU Usage</h5>
+                        <h3 id="cpu-usage">0%</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-memory fa-2x mb-2"></i>
+                        <h5>Memory Usage</h5>
+                        <h3 id="memory-usage">0%</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-hdd fa-2x mb-2"></i>
+                        <h5>Disk Usage</h5>
+                        <h3 id="disk-usage">0%</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-server fa-2x mb-2"></i>
+                        <h5>Xray Status</h5>
+                        <h3 id="xray-status">Unknown</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Network Statistics -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card network-card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-network-wired"></i> Network Statistics</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <p><strong>Bytes Sent:</strong></p>
+                                <p id="bytes-sent">0 B</p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Bytes Received:</strong></p>
+                                <p id="bytes-recv">0 B</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p><strong>Packets Sent:</strong></p>
+                                <p id="packets-sent">0</p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Packets Received:</strong></p>
+                                <p id="packets-recv">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card system-card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-info-circle"></i> System Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Uptime:</strong> <span id="uptime">Unknown</span></p>
+                        <p><strong>Active Connections:</strong> <span id="active-connections">0</span></p>
+                        <p><strong>Total Clients:</strong> <span id="total-clients">0</span></p>
+                        <p><strong>Domain:</strong> <span id="domain">Not configured</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clients and Connections -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-users"></i> Clients</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="clients-list">
+                            <p class="text-muted">No clients found</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-plug"></i> Recent Connections</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="connections-list">
+                            <p class="text-muted">No recent connections</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refresh Button -->
+    <button class="btn btn-primary btn-lg refresh-btn" onclick="refreshData()">
+        <i class="fas fa-sync-alt"></i>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('update-time').textContent = now.toLocaleTimeString();
+        }
+
+        function updateSystemStats(data) {
+            document.getElementById('cpu-usage').textContent = data.system.cpu_percent + '%';
+            document.getElementById('memory-usage').textContent = data.system.memory_percent + '%';
+            document.getElementById('disk-usage').textContent = data.system.disk_percent + '%';
+            document.getElementById('xray-status').textContent = data.system.xray_status;
+            document.getElementById('uptime').textContent = data.system.uptime;
+            document.getElementById('active-connections').textContent = data.active_connections.length;
+            document.getElementById('total-clients').textContent = data.clients.length;
+            document.getElementById('domain').textContent = data.config.domain || 'Not configured';
+        }
+
+        function updateNetworkStats(data) {
+            document.getElementById('bytes-sent').textContent = formatBytes(data.network.bytes_sent);
+            document.getElementById('bytes-recv').textContent = formatBytes(data.network.bytes_recv);
+            document.getElementById('packets-sent').textContent = data.network.packets_sent.toLocaleString();
+            document.getElementById('packets-recv').textContent = data.network.packets_recv.toLocaleString();
+        }
+
+        function updateClients(data) {
+            const clientsList = document.getElementById('clients-list');
+            if (data.clients.length === 0) {
+                clientsList.innerHTML = '<p class="text-muted">No clients found</p>';
+                return;
+            }
+
+            let html = '';
+            data.clients.forEach(client => {
+                const statusClass = client.enabled ? 'status-active' : 'status-inactive';
+                const statusIcon = client.enabled ? 'fa-check-circle' : 'fa-times-circle';
+                html += `
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <strong>${client.name}</strong><br>
+                            <small class="text-muted">${client.uuid}</small>
+                        </div>
+                        <div class="text-end">
+                            <i class="fas ${statusIcon} ${statusClass}"></i><br>
+                            <small>Connections: ${client.connection_count || 0}</small>
+                        </div>
+                    </div>
+                    <hr>
+                `;
+            });
+            clientsList.innerHTML = html;
+        }
+
+        function updateConnections(data) {
+            const connectionsList = document.getElementById('connections-list');
+            if (data.recent_connections.length === 0) {
+                connectionsList.innerHTML = '<p class="text-muted">No recent connections</p>';
+                return;
+            }
+
+            let html = '';
+            data.recent_connections.slice(-10).forEach(conn => {
+                html += `
+                    <div class="connection-item">
+                        <small class="text-muted">${conn.timestamp}</small><br>
+                        <small>${conn.message}</small>
+                    </div>
+                `;
+            });
+            connectionsList.innerHTML = html;
+        }
+
+        async function refreshData() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                
+                updateSystemStats(data);
+                updateNetworkStats(data);
+                updateClients(data);
+                updateConnections(data);
+                updateTime();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Auto-refresh every 5 seconds
+        setInterval(refreshData, 5000);
+        
+        // Initial load
+        refreshData();
+    </script>
+</body>
+</html> 
